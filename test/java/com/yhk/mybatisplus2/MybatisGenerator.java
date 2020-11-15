@@ -64,7 +64,6 @@ public class MybatisGenerator {
                 // to do nothing
             }
         };
-
         // 表明当前的模板引擎是 velocity
         String templatePath = "/templates/mapper.xml.vm";
 
@@ -95,13 +94,22 @@ public class MybatisGenerator {
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
+        //表名是否为大写，默认为false
+        strategy.setCapitalMode(false);
+        //数据库表映射到实体的命名策略 驼峰命名
         strategy.setNaming(NamingStrategy.underline_to_camel);
+        //数据库表字段映射到实体的命名策略, 未指定按照 naming 执行 驼峰命名
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
+        //是否启动lombok
         strategy.setEntityLombokModel(true);
-        strategy.setRestControllerStyle(true);
-        // 公共父类
-        // 写于父类中的公共字段
+        //关闭实体类中的序列化id号
+        strategy.setEntitySerialVersionUID(false);
+        //生成实体类时给字段加上注解
+        strategy.setEntityTableFieldAnnotationEnable(true);
+
+        //要生成的表
         strategy.setInclude();
+
         mpg.setStrategy(strategy);
         mpg.execute();
     }
